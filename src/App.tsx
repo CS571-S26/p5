@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import DailyChallengePage from './pages/DailyChallengePage';
 import SinglePlayerPage from './pages/SinglePlayerPage';
@@ -8,7 +8,7 @@ import RulesPage from './pages/RulesPage';
 
 const App: React.FC = () => {
   return (
-    <Router>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/daily-challenge" element={<DailyChallengePage />} />
@@ -16,7 +16,7 @@ const App: React.FC = () => {
         <Route path="/multi-player" element={<MultiPlayerPage />} />
         <Route path="/rules" element={<RulesPage />} />
       </Routes>
-    </Router>
+    </HashRouter>
   );
 };
 

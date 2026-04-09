@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Container, Nav, Navbar } from 'react-bootstrap';
+import { NavLink } from 'react-router-dom';
 
 const GlobalNavigationBar  : React.FC = () => {
   return (
@@ -7,10 +8,10 @@ const GlobalNavigationBar  : React.FC = () => {
       <Container fluid >
         <Navbar.Brand href="/">8Word</Navbar.Brand>
         <Nav className="me-auto">
-          <Nav.Link href="/daily-challenge">Today's Challenge</Nav.Link>
-          <Nav.Link href="/single-player">Single Player</Nav.Link>
-          <Nav.Link href="/multi-player">Multi Player</Nav.Link>
-          <Nav.Link href="/rules">Rules</Nav.Link>
+          <Nav.Link as={NavLink} to="/daily-challenge">Today's Challenge</Nav.Link>
+          <Nav.Link as={NavLink} to="/single-player">Single Player</Nav.Link>
+          <Nav.Link as={NavLink} to="/multi-player">Multi Player</Nav.Link>
+          <Nav.Link as={NavLink} to="/rules">Rules</Nav.Link>
         </Nav>
         <Button variant="outline-light">Login</Button>
       </Container>
