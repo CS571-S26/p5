@@ -58,7 +58,7 @@ type SavedState = {
   finished: boolean;
 };
 
-const STORAGE_KEY = 'singleplayer-v1';
+const STORAGE_KEY = 'dailychallenge';
 
 const DailyChallengePage: React.FC = () => {
   const [seed, setSeed] = useState<number>(() => getDailySeed());
