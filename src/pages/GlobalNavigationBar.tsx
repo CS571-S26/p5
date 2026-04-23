@@ -10,8 +10,9 @@ const GlobalNavigationBar  : React.FC = () => {
         <Nav className="me-auto">
           <Nav.Link as={NavLink} to="/daily-challenge">Today's Challenge</Nav.Link>
           <Nav.Link as={NavLink} to="/single-player">Single Player</Nav.Link>
-          <Nav.Link as={NavLink} to="/multi-player">Multi Player</Nav.Link>
+          <Nav.Link as={NavLink} to="/stats">Stats</Nav.Link>
           <Nav.Link as={NavLink} to="/rules">Rules</Nav.Link>
+          <Nav.Link as={NavLink} to="/settings">Settings</Nav.Link>
         </Nav>
         <Button variant="outline-light">Login</Button>
       </Container>

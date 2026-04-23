@@ -1,6 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import { Container, Card, Row, Col, Button, Badge, Form } from 'react-bootstrap';
 import GlobalNavigationBar from './GlobalNavigationBar';
+import WORDS from '../data/words';
+
 
 /* Tiny deterministic PRNG (Mulberry32) */
 function mulberry32(seed: number) {
@@ -12,10 +14,10 @@ function mulberry32(seed: number) {
   };
 }
 
-const WORDS = [
-  'apple','elephant','truck','kite','eagle','egg','golf','fish','hat','tree',
-  'ear','river','rose','sun','night','tiger','rat','top','pear','raven'
-];
+// const WORDS = [
+//   'apple','elephant','truck','kite','eagle','egg','golf','fish','hat','tree',
+//   'ear','river','rose','sun','night','tiger','rat','top','pear','raven'
+// ];
 
 function generatePuzzle(seed: number, n: number) {
   const rng = mulberry32(seed);
@@ -31,6 +33,7 @@ function generatePuzzle(seed: number, n: number) {
   }
   return out;
 }
+
 
 type SavedState = {
   seed: number;
@@ -127,6 +130,45 @@ const SinglePlayerPage: React.FC = () => {
   const currentWord = puzzle[currentIndex];
   const currentRevealed = revealed[currentIndex] ?? '';
 
+  function revealNextLetter() {
+  if (finished) return;
+  if (!currentWord) return;
+
+  const nextPos = currentRevealed.indexOf('_');
+  if (nextPos === -1) return; // already complete
+
+  const required = currentWord[nextPos];
+
+  // reveal the letter
+  setRevealed(prev => {
+    const copy = [...prev];
+    const updated = copy[currentIndex].split('').map((c, i) => (i === nextPos ? required : c)).join('');
+    copy[currentIndex] = updated;
+    return copy;
+  });
+
+  // record as two incorrect guesses (cost)
+  setIncorrectCount(c => c + 2);
+
+  // also add to guessedForWord (optional: mark as revealed guess)
+  setGuessedForWord(prev => prev.includes(required) ? prev : [...prev, required]);
+
+  // advance if word now complete
+  setTimeout(() => {
+    const updatedRevealed = revealed[currentIndex]?.split('').map((c, i) => (i === nextPos ? required : c)).join('') ?? '';
+    const isComplete = !updatedRevealed.includes('_');
+    if (isComplete) {
+      const nextIndex = currentIndex + 1;
+      if (nextIndex >= puzzle.length) {
+        setFinished(true);
+      } else {
+        setCurrentIndex(nextIndex);
+      }
+    }
+  }, 0);
+}
+
+
   function submitLetter(e?: React.FormEvent) {
     e?.preventDefault();
     const ch = letter.trim().toLowerCase();
@@ -183,7 +225,7 @@ const SinglePlayerPage: React.FC = () => {
           <Card.Body>
             <Row className="align-items-center mb-3">
               <Col>
-                <h3>Single Player — Ordered Letters</h3>
+                <h3>Single Player</h3>
                 <div><small>Seed: <Badge bg="secondary">{seed}</Badge></small></div>
               </Col>
               <Col xs="auto">
@@ -217,7 +259,17 @@ const SinglePlayerPage: React.FC = () => {
                     disabled={finished}
                   />
                   <Button type="submit" variant="primary" disabled={finished}>Submit</Button>
+                  <Button
+                    type="button"
+                    variant="outline-warning"
+                    onClick={revealNextLetter}
+                    disabled={finished || !currentWord || !currentRevealed.includes('_')}
+                    title="Reveal next letter (cost: 2 incorrect guesses)"
+                  >
+                    Reveal next letter (−2)
+                  </Button>
                 </Form>
+
 
                 <div style={{ marginTop: 8 }}>
                   <div style={{ fontSize: 12, color: '#333', marginBottom: 4 }}><strong>Guessed letters:</strong></div>

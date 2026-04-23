@@ -1,0 +1,33 @@
+:root[data-theme='light'] {
+  --bg: white;
+  --text: black;
+  --card-bg: #f8f9fa;
+}
+
+:root[data-theme='dark'] {
+  --bg: #111;
+  --text: white;
+  --card-bg: #1e1e1e;
+}
+
+:root[data-theme='plum'] {
+  --bg: #B8AFC7;      
+  --text: #291E3D;      
+  --card-bg: #E2DDEB;  
+}
+
+:root[data-theme='green'] {
+  --bg: #BBC9BC;     
+  --text: #1e3d2b; 
+  --card-bg: #DDEBDE;   
+}
+
+body {
+  background-color: var(--bg) !important;
+  color: var(--text) !important;
+}
+
+.card {
+  background-color: var(--card-bg) !important;
+  color: var(--text) !important;
+}
