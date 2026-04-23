@@ -19,8 +19,8 @@ const Home: React.FC = () => {
               <Link to="/single-player">
                 <Button variant="secondary" size="lg" className="w-100">Single Player</Button>
               </Link>
-              <Link to="/multi-player">
-                <Button variant="secondary" size="lg" className="w-100">Multi Player</Button>
+              <Link to="/stats">
+                <Button variant="secondary" size="lg" className="w-100">Stats</Button>
               </Link>
               <Link to="/rules">
                 <Button variant="dark" size="lg" className="w-100">Rules</Button>
