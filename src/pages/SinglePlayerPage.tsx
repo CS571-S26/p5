@@ -47,6 +47,7 @@ type SavedState = {
 };
 
 const STORAGE_KEY = 'singleplayer-v1';
+const HISTORY_KEY = 'singleplayer-history-v1';
 
 const SinglePlayerPage: React.FC = () => {
   const [seed, setSeed] = useState<number>(() => Math.floor(Math.random() * 1e9));
@@ -126,6 +127,24 @@ const SinglePlayerPage: React.FC = () => {
   React.useEffect(() => {
     setGuessedForWord([]);
   }, [currentIndex]);
+
+  // save score when the game is finished
+
+  React.useEffect(() => {
+    if (correctCount + incorrectCount > 0) {
+      const score = {
+        seed,
+        n,
+        correctCount,
+        incorrectCount,
+        timestamp: Date.now()
+      }
+      const raw = localStorage.getItem(HISTORY_KEY);
+      const hist = raw ? JSON.parse(raw) : [];
+      hist.push(score);
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(hist));
+    }
+  }, [finished])
 
   const currentWord = puzzle[currentIndex];
   const currentRevealed = revealed[currentIndex] ?? '';
